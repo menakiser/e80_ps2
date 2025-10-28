@@ -1,0 +1,19 @@
+# avoid data files
+*data/
+*data/*
+data/*
+*.dta
+*.csv
+*.xlsx
+
+# From R
+*.RData
+*.Rhistory
+*.rds
+
+# iOS temporary files
+*.stswp
+*.DS_Store
+
+# Server 
+*.log
