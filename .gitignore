@@ -1,10 +1,5 @@
 # avoid data files
-*data/
-*data/*
-data/*
-*.dta
-*.csv
-*.xlsx
+data/ps2_acs_2008to2019-5.dta
 
 # From R
 *.RData
