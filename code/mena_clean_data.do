@@ -38,7 +38,7 @@ fre educ_sp
 
 * Summary Statistics
 global allvars "male age white black native asian other hispan_sum married separated single nchild yngch has_* educ educ_d* educ_sp_d* employed incearn uhrswork "
-global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3cm}  Black" "\hspace{0.3cm}  Native American" "\hspace{0.3cm}  Asian" "\hspace{0.3cm}  Other" "Hispanic origin" "Marital status" "\hspace{0.3cm} Currently married" "\hspace{0.3cm} Separated" "\hspace{0.3cm} Single"  "Number of children" "Age of youngest child" "Insurance coverage" "\hspace{0.3cm}  Any coverage" "\hspace{0.3cm}  Coverage through employer"  "\hspace{0.3cm}  Public insurance coverage" "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5-8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Educational attainment of spouse" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5-8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "\hspace{0.3cm} Grade 12" "\hspace{0.3cm} 1 year of college" "\hspace{0.3cm} 2 years of college" "\hspace{0.3cm} 4 years of college"  "\hspace{0.3cm} 5$+$ years of college" "Employed" "Earned income" "Usual weeklyhours worked" "'
+global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3cm}  Black" "\hspace{0.3cm}  Native American" "\hspace{0.3cm}  Asian" "\hspace{0.3cm}  Other" "Hispanic origin" "Marital status" "\hspace{0.3cm} Currently married" "\hspace{0.3cm} Separated" "\hspace{0.3cm} Single"  "Number of children" "Age of youngest child" "Insurance coverage" "\hspace{0.3cm}  Any coverage" "\hspace{0.3cm}  Coverage through employer"  "\hspace{0.3cm}  Public insurance coverage" "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Educational attainment of spouse" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "\hspace{0.3cm} Grade 12" "\hspace{0.3cm} 1 year of college" "\hspace{0.3cm} 2 years of college" "\hspace{0.3cm} 4 years of college"  "\hspace{0.3cm} 5$+$ years of college" "Employed" "Earned income" "Usual weeklyhours worked" "'
 
 cap program drop storemean
 program define storemean
@@ -66,10 +66,10 @@ foreach v of varlist $allvars {
 //store latex summary stats matrix, manually creating to fit desired format
 cap file close sumstat
 file open sumstat using "$od/t1_sum_stat.tex", write replace
-file write sumstat "\begin{tabular}{lccc}" _n
+file write sumstat "\begin{tabular}{lcccccc}" _n
 file write sumstat "\toprule" _n
 file write sumstat "\toprule" _n
-file write sumstat " Variable & All & Never Treated & Treated State \\" _n
+file write sumstat " Variable & \multicolumn{2}{c}{All} & \multicolumn{2}{c}{Never Treated} & \multicolumn{2}{c}{Treated State} \\" _n
 file write sumstat "\midrule " _n 
 local ncount : word count $sum_varnames
 local rowcount = 1
@@ -82,13 +82,8 @@ forval i=1/`ncount' {
         * store mean
         foreach mat in mall mun mtr {
             local vmean = string(`mat'[`rowcount',1], "%12.3fc")
-            file write sumstat " & `vmean'"
-        }
-        file write sumstat " \\" _n
-        * store SD
-        foreach mat in mall mun mtr {
             local vsd = string(`mat'[`rowcount',2], "%12.3fc")
-            file write sumstat " & (`vsd')"
+            file write sumstat " & `vmean' & (`vsd') "
         }
         file write sumstat " \\" _n
         local++ rowcount
@@ -98,10 +93,10 @@ forval i=1/`ncount' {
 	}
 }
 file write sumstat "\\" _n
-local n1 = string(mall[1,2], "%12.0fc")
-local n2 = string(mun[1,2], "%12.0fc")
-local n3 = string(mtr[1,2], "%12.0fc")
-file write sumstat "Observations & `n1' & `n2' & `n3' \\" _n
+local n1 = string(mall[1,3], "%12.0fc")
+local n2 = string(mun[1,3], "%12.0fc")
+local n3 = string(mtr[1,3], "%12.0fc")
+file write sumstat "Observations & \multicolumn{2}{c}{`n1'} & \multicolumn{2}{c}{`n2'} & \multicolumn{2}{c}{`n3'} \\" _n
 file write sumstat "\bottomrule" _n
 file write sumstat "\bottomrule" _n
 file write sumstat "\end{tabular}"
