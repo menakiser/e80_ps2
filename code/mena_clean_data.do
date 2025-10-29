@@ -25,6 +25,7 @@ gen native = race==3
 gen asian = inlist(race, 4, 5, 6)
 gen other = inlist(race, 7, 8, 9)
 gen hispan_sum = hispan!=0
+replace yngch = . if yngch==99
 gen employed = empstat==1
 foreach v in hcovany hinsemp hcovpub hinscaid {
     gen has_`v' = `v'==1
