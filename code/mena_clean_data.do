@@ -42,8 +42,8 @@ global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3c
 
 cap program drop storemean
 program define storemean
-syntax, varname(str) mat(str) restriction(str) tosum(str)
-    reghdfe `varname' `restriction' [pw=perwt]
+syntax, varname(str) mat(str) restriction(str) tosum(str) [cond(str)]
+    reghdfe `varname' `restriction' [pw=perwt] , `cond'
     local m = _b[`tosum']
     local sd = _se[`tosum']
     local n = e(N)
@@ -59,8 +59,8 @@ gen nomedicaid_exp = medicaid_exp==0
 foreach v of varlist $allvars {
     di in red "var `v'"
     storemean, varname(`v') restriction(allinfile) tosum(_cons)  mat(mall)
-    storemean, varname(`v') restriction(nomedicaid_exp) tosum(nomedicaid_exp) mat(mun)
-    storemean, varname(`v') restriction(medicaid_exp) tosum(medicaid_exp) mat(mtr)
+    storemean, varname(`v') restriction(nomedicaid_exp) tosum(nomedicaid_exp) mat(mun)  cond(nocons)
+    storemean, varname(`v') restriction(medicaid_exp) tosum(medicaid_exp) mat(mtr) cond(nocons)
 }
 
 
@@ -103,7 +103,3 @@ file write sumstat "\bottomrule" _n
 file write sumstat "\bottomrule" _n
 file write sumstat "\end{tabular}"
 file close sumstat
-
-
-outreg2 using "sumstat.xlsx", se nolabel bracket coefastr bdec(3) addtext(Previous Score Polynomial, , Student Covariates, , Class Covariates, , Teacher Covariates, , School Covariates, , School FE, , School*Grade*Year FE, , Year*Grade FE, X)
-
