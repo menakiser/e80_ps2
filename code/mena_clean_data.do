@@ -84,7 +84,7 @@ forval i=1/`ncount' {
     di "row `rowcount'"
     file write sumstat " `varlab'  "
 
-	if `i' != 3 & `i' != 10 & `i' != 16 & `i' != 20 & `i' != 26   {
+	if `i' != 3 & `i' != 10 & `i' != 16 & `i' != 21 & `i' != 27   {
         * store mean
         foreach mat in mall mun mtr {
             local vmean = string(`mat'[`rowcount',1], "%12.3fc")
