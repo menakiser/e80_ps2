@@ -11,6 +11,8 @@ global wd "/Users/jimenakiser/Desktop/econ 80/e80_ps2/"
 global dd "$wd/data/"
 global od "$wd/output/"
 
+
+
 * obtain ACS data as provided 
 use "$dd/ps2_acs_2008to2019-5.dta", clear
 
