@@ -46,6 +46,41 @@ Our data comes from the 2008-2019 American Community Survey (ACS), obtained thro
 
 Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 60\% is white, 60\% is single (divorced, widowed, or never married), 
 
+Comment on limitations of data for age of youngest 
+
+Outcomes list:
+\begin{itemize}
+    \item Any coverage
+    \item Medicaid
+    \item Public insurance
+    \item Employment insurance
+    \item Number of children
+    \item Dummy for new baby (<=1 years old)
+
+\end{itemize}
+
+Controls list:
+\begin{itemize}
+    \item Sex
+    \item Age
+    \item Race
+    \item Hispanic
+    \item Marital Status
+    \item Education
+    \item Employment status
+    \item Income
+    \item Full-time worker dummy (40 hours or more a week)
+\end{itemize}
+
+Heterogeneity:
+\begin{itemize}
+    \item Sex
+    \item Hispanic v. Not Hispanic
+    \item Employment status
+\end{itemize}
+
+
+
 
 \begin{table}[h!]
 \begin{centering}
@@ -66,7 +101,7 @@ Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restrict
 
 
 \begin{equation}
-    A_{icsj} = \beta_0 + X_{icsj}\beta_4 + W_{j}\beta_1 + Z_{csj}\beta_2 + V_{s}\beta_3 + \varepsilon_{icsj}
+    Y_{ist} = \beta_0 + expansion_{st}*post_{st}\beta_1 +  expansion_{st}\beta_2  + post_{st}\beta_3 +  W_{i} + Z_{s} + V_{y}+  P_{st} + \varepsilon_{sj}
 \end{equation}
 
 
