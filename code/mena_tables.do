@@ -84,11 +84,67 @@ program main
     /*****************************************************
     Table 2: Define focus regression
     ******************************************************/
-    
+    use "$dd/ps2_working_data" , clear 
+
     *** coverage
-    reghdfe has_hcovany post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos, p=0, male (-), white (+), hispanic (-), are all significant
-    reghdfe has_hinscaid post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos, p=0, male (-), white (-), hispanic (-), are all significant
-    reghdfe has_hinsemp post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos very close to 0, p=0.8, male (+), white (+), hispanic (-), p=0.3), are all significant
+    cap mat drop cov
+    reghdfe has_hcovany post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+
+    reghdfe has_hinscaid post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    
+    reghdfe has_hcovpub post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    
+    reghdfe has_hinsemp post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+
+
+    //store latex summary stats matrix, manually creating to fit desired format
+    cap file close sumstat
+    file open sumstat using "$od/cov_did.tex", write replace
+    file write sumstat "\begin{tabular}{lcccc}" _n
+    file write sumstat "\toprule" _n
+    file write sumstat "\toprule" _n
+    file write sumstat " Variable & Any Health Insurance & Medicaid & Public Insurance & Coverage through \\" _n
+    file write sumstat "  & Coverage & Coverage &  Employer \\" _n
+    file write sumstat "\midrule " _n 
+    
+    local i = 1
+    local rowcount = 1
+
+    while `rowcount' < 30 {
+        local varlab: word `i' of $cov_varnames
+        * label
+        file write sumstat " `varlab'  "
+        if `i' != 6 {
+            storecoeff, mat(cov) row(`rowcount') cols(1 2 3 4)
+            local rowcount = `rowcount' +3
+        }
+        if `i'== 6 {
+            file write sumstat "\\" _n
+        }
+        local++ i
+    }
+    file write sumstat "\\" _n
+    //store sample size
+    forval col = 1/4 {
+        local r2_`col' = string(cov[31,`col'], "%12.3fc")
+        local n_`col' = string(cov[33,`col'], "%12.0fc")
+        }
+    file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
+    file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
+    file write sumstat "\bottomrule" _n
+    file write sumstat "\bottomrule" _n
+    file write sumstat "\end{tabular}"
+    file close sumstat
+
+
+
+
+
+
 
     *** marital
     reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg and small high p, male (-), age (+), white (+), hispan
@@ -128,6 +184,8 @@ global hetvars male any_hispan employed
 global allvars "male age white black native asian other any_hispan married separated single nchild yngch newbaby newparent has_hcovany has_hinsemp has_hcovpub has_hinscaid educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 educ_sp_d2 educ_sp_d3 educ_sp_d4 educ_sp_d5 educ_sp_d6 educ_sp_d7 educ_sp_d8 educ_sp_d9 educ_sp_d10 educ_sp_d11 employed incearn uhrswork fulltime "
 global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3cm}  Black" "\hspace{0.3cm}  Native American" "\hspace{0.3cm}  Asian" "\hspace{0.3cm}  Other" "Hispanic origin" "Marital status" "\hspace{0.3cm} Currently married" "\hspace{0.3cm} Separated" "\hspace{0.3cm} Single"  "Number of children" "Age of youngest child" "Has baby age $<$1" "New parent" "Insurance coverage" "\hspace{0.3cm}  Any coverage" "\hspace{0.3cm}  Coverage through employer"  "\hspace{0.3cm}  Public insurance coverage"  "\hspace{0.3cm}  Coverage through Medicaid"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Educational attainment of spouse" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "\hspace{0.3cm} Grade 12" "\hspace{0.3cm} 1 year of college" "\hspace{0.3cm} 2 years of college" "\hspace{0.3cm} 4 years of college"  "\hspace{0.3cm} 5$+$ years of college" "Employed" "Earned income" "Usual weekly hours worked" "Full time (40$+$ work hrs)"  "'
 
+global cov_varnames `" "Medicaid Expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "'
+
 
 cap program drop storemean
 program define storemean
@@ -137,4 +195,26 @@ syntax, varname(str) mat(str) restriction(str) tosum(str) [cond(str)]
     local sd = _se[`tosum']
     local n = e(N)
     mat `mat' = nullmat(`mat') \ (`m' , `sd', `n')
+end
+
+cap program drop storecoeff
+program define storecoeff
+syntax, mat(str) row(int) cols(str)
+    local rb = `row'
+    local rp = `rb' + 1
+    local rse = `rp' + 1
+    * coefficient with stars
+    foreach col in `cols' {
+        local b = string(`mat'[`rb',`col'], "%12.3fc")
+        local pval = string(`mat'[`rp',`col'], "%12.3fc")
+        local stars_abs = cond(`pval' < 0.01, "***", cond(`pval' < 0.05, "**", cond(`pval' < 0.1, "*", "")))
+        file write sumstat " & `b'`stars_abs'  "
+    }
+    file write sumstat "\\" _n
+    * standard errors
+    foreach col in `cols' {
+        local se = string(`mat'[`rse',`col'], "%12.3fc")
+        file write sumstat " & (`se')  "
+    }
+    file write sumstat "\\" _n
 end
