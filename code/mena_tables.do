@@ -121,11 +121,11 @@ program main
         local varlab: word `i' of $cov_varnames
         * label
         file write sumstat " `varlab'  "
-        if `i' != 6 {
+        if `i' != 6 & `i' != 13 {
             storecoeff, mat(cov) row(`rowcount') cols(1 2 3 4)
             local rowcount = `rowcount' +3
         }
-        if `i'== 6 {
+        if `i'== 6 | `i' == 13  {
             file write sumstat "\\" _n
         }
         local++ i
@@ -184,11 +184,11 @@ program main
         local varlab: word `i' of $cov_varnames
         * label
         file write sumstat " `varlab'  "
-        if `i' != 6 {
+        if `i' != 6 & `i' != 13 {
             storecoeff, mat(expdiff) row(`rowcount') cols(1 2 3 4 5)
             local rowcount = `rowcount' +3
         }
-        if `i'== 6 {
+        if `i'== 6 | `i' == 13  {
             file write sumstat "\\" _n
         }
         local++ i
@@ -250,7 +250,7 @@ global empvars employed incearn fulltime uhrswork
 global allvars "male age white black native asian other any_hispan married separated single nchild yngch newbaby newparent has_hcovany has_hinsemp has_hcovpub has_hinscaid educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 educ_sp_d2 educ_sp_d3 educ_sp_d4 educ_sp_d5 educ_sp_d6 educ_sp_d7 educ_sp_d8 educ_sp_d9 educ_sp_d10 educ_sp_d11 employed incearn uhrswork fulltime "
 global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3cm}  Black" "\hspace{0.3cm}  Native American" "\hspace{0.3cm}  Asian" "\hspace{0.3cm}  Other" "Hispanic origin" "Marital status" "\hspace{0.3cm} Currently married" "\hspace{0.3cm} Separated" "\hspace{0.3cm} Single"  "Number of children" "Age of youngest child" "Has baby age $<$1" "New parent" "Insurance coverage" "\hspace{0.3cm}  Any coverage" "\hspace{0.3cm}  Coverage through employer"  "\hspace{0.3cm}  Public insurance coverage"  "\hspace{0.3cm}  Coverage through Medicaid"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Educational attainment of spouse" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "\hspace{0.3cm} Grade 12" "\hspace{0.3cm} 1 year of college" "\hspace{0.3cm} 2 years of college" "\hspace{0.3cm} 4 years of college"  "\hspace{0.3cm} 5$+$ years of college" "Employed" "Earned income" "Usual weekly hours worked" "Full time (40$+$ work hrs)"  "'
 
-global cov_varnames `" "Medicaid expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Currently married" "Employed" "Earned income" "Weekly work hours" "Full time status"  "'
+global cov_varnames `" "Medicaid expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Currently married" "Employment covariates" "Employed" "Earned income" "Weekly work hours" "Full time status"  "'
 
 
 cap program drop storemean
