@@ -16,7 +16,10 @@ global od "$wd/output/"
 * obtain ACS data as provided 
 use "$dd/ps2_acs_2008to2019-5.dta", clear
 
-* create variables to best evaluate baseline group
+
+/*****************************************************
+Create variables to best evaluate baseline group
+******************************************************/
 
 *** age and childbearing
 replace yngch = . if yngch==99
