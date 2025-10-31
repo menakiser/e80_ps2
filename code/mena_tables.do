@@ -92,13 +92,13 @@ program main
     reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
 
     reghdfe has_hinscaid post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    reg_to_mat, depvar(has_hinscaid) indvars(post_mcaid $covars) mat(cov)
     
     reghdfe has_hcovpub post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    reg_to_mat, depvar(has_hcovpub) indvars(post_mcaid $covars) mat(cov)
     
     reghdfe has_hinsemp post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
-    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    reg_to_mat, depvar(has_hinsemp) indvars(post_mcaid $covars) mat(cov)
 
 
     //store latex summary stats matrix, manually creating to fit desired format
@@ -140,6 +140,67 @@ program main
     file write sumstat "\end{tabular}"
     file close sumstat
 
+
+    /*****************************************************
+    Table 3: Differences across expansion
+    ******************************************************/
+    use "$dd/ps2_working_data" , clear 
+
+    cap mat drop expdiff
+
+    *** marital
+    reghdfe married post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(married) indvars(post_mcaid $covars) mat(expdiff)
+
+    *** employment 
+    reghdfe employed post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(employed) indvars(post_mcaid $covars) mat(expdiff)
+    reghdfe incearn post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(incearn) indvars(post_mcaid $covars) mat(expdiff)
+    reghdfe fulltime post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(fulltime) indvars(post_mcaid $covars) mat(expdiff)
+    reghdfe uhrswork post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(uhrswork) indvars(post_mcaid $covars) mat(expdiff)
+
+
+    //store latex summary stats matrix, manually creating to fit desired format
+    cap file close sumstat
+    file open sumstat using "$od/expdiff.tex", write replace
+    file write sumstat "\begin{tabular}{lccccc}" _n
+    file write sumstat "\toprule" _n
+    file write sumstat "\toprule" _n
+    file write sumstat " Variable & Currently & Employed & Earned & Full time & Weekly \\" _n
+    file write sumstat "  & married &  & income &  status & hours \\" _n
+    file write sumstat "\midrule " _n 
+    
+    local i = 1
+    local rowcount = 1
+
+    while `rowcount' < 30 {
+        local varlab: word `i' of $cov_varnames
+        * label
+        file write sumstat " `varlab'  "
+        if `i' != 6 {
+            storecoeff, mat(expdiff) row(`rowcount') cols(1 2 3 4 5)
+            local rowcount = `rowcount' +3
+        }
+        if `i'== 6 {
+            file write sumstat "\\" _n
+        }
+        local++ i
+    }
+    file write sumstat "\\" _n
+    //store sample size
+    forval col = 1/5 {
+        local r2_`col' = string(expdiff[31,`col'], "%12.3fc")
+        local n_`col' = string(expdiff[33,`col'], "%12.0fc")
+        }
+    file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' & `r2_5' \\" _n
+    file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4'  & `n_5' \\" _n
+    file write sumstat "\bottomrule" _n
+    file write sumstat "\bottomrule" _n
+    file write sumstat "\end{tabular}"
+    file close sumstat
 
 
 
