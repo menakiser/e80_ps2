@@ -134,7 +134,7 @@ program main
     //store sample size
     forval col = 1/4 {
         local r2_`col' = string(cov[46,`col'], "%12.3fc")
-        local um_`col' = string(cov[46,`col'], "%12.3fc")
+        local um_`col' = string(cov[47,`col'], "%12.3fc")
         local n_`col' = string(cov[48,`col'], "%12.0fc")
         }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
