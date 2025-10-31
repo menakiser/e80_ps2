@@ -134,9 +134,11 @@ program main
     //store sample size
     forval col = 1/4 {
         local r2_`col' = string(cov[46,`col'], "%12.3fc")
+        local um_`col' = string(cov[46,`col'], "%12.3fc")
         local n_`col' = string(cov[48,`col'], "%12.0fc")
         }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
+    file write sumstat "Untreated mean & `um_1' & `um_2' & `um_3' & `um_4' \\" _n
     file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
     file write sumstat "\bottomrule" _n
     file write sumstat "\bottomrule" _n
@@ -153,17 +155,17 @@ program main
 
     *** marital
     reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(married) indvars(post_mcaid $covars) mat(expdiff)
+    reg_to_mat, depvar(married) indvars(post_mcaid $covars married) mat(expdiff)
 
     *** employment 
     reghdfe employed post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(employed) indvars(post_mcaid $covars) mat(expdiff)
+    reg_to_mat, depvar(employed) indvars(post_mcaid $covars married) mat(expdiff)
     reghdfe incearn post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(incearn) indvars(post_mcaid $covars) mat(expdiff)
+    reg_to_mat, depvar(incearn) indvars(post_mcaid $covars married) mat(expdiff)
     reghdfe fulltime post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(fulltime) indvars(post_mcaid $covars) mat(expdiff)
+    reg_to_mat, depvar(fulltime) indvars(post_mcaid $covars married) mat(expdiff)
     reghdfe uhrswork post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(uhrswork) indvars(post_mcaid $covars) mat(expdiff)
+    reg_to_mat, depvar(uhrswork) indvars(post_mcaid $covars married) mat(expdiff)
 
 
     //store latex summary stats matrix, manually creating to fit desired format
@@ -196,10 +198,12 @@ program main
     file write sumstat "\\" _n
     //store sample size
     forval col = 1/5 {
-        local r2_`col' = string(expdiff[31,`col'], "%12.3fc")
-        local n_`col' = string(expdiff[33,`col'], "%12.0fc")
+        local r2_`col' = string(expdiff[34,`col'], "%12.3fc")
+        local um_`col' = string(expdiff[35,`col'], "%12.3fc")
+        local n_`col' = string(expdiff[36,`col'], "%12.0fc")
         }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' & `r2_5' \\" _n
+    file write sumstat "Untreated mean & `um_1' & `um_2' & `um_3' & `um_4' & `um_5' \\" _n
     file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4'  & `n_5' \\" _n
     file write sumstat "\bottomrule" _n
     file write sumstat "\bottomrule" _n
@@ -271,16 +275,26 @@ syntax, mat(str) row(int) cols(str)
     local rse = `rp' + 1
     * coefficient with stars
     foreach col in `cols' {
-        local b = string(`mat'[`rb',`col'], "%12.3fc")
-        local pval = string(`mat'[`rp',`col'], "%12.3fc")
-        local stars_abs = cond(`pval' < 0.01, "***", cond(`pval' < 0.05, "**", cond(`pval' < 0.1, "*", "")))
-        file write sumstat " & `b'`stars_abs'  "
+        if `mat'[`rb',`col'] != 9999 {
+            local b = string(`mat'[`rb',`col'], "%12.3fc")
+            local pval = string(`mat'[`rp',`col'], "%12.3fc")
+            local stars_abs = cond(`pval' < 0.01, "***", cond(`pval' < 0.05, "**", cond(`pval' < 0.1, "*", "")))
+            file write sumstat " & `b'`stars_abs'  "
+        }
+        if `mat'[`rb',`col'] == 9999 {
+            file write sumstat " &  "
+        }
     }
     file write sumstat "\\" _n
     * standard errors
     foreach col in `cols' {
-        local se = string(`mat'[`rse',`col'], "%12.3fc")
-        file write sumstat " & (`se')  "
+        if `mat'[`rb',`col'] != 9999 {
+            local se = string(`mat'[`rse',`col'], "%12.3fc")
+            file write sumstat " & (`se')  "
+        }
+        if `mat'[`rb',`col'] == 9999 {
+            file write sumstat " &   "
+        }
     }
     file write sumstat "\\" _n
 end
