@@ -47,7 +47,7 @@ gen any_hispan = hispan!=0
 gen fulltime = uhrswork>=40
 gen employed = empstat==1
 foreach v in hcovany hinsemp hcovpub hinscaid {
-    gen has_`v' = `v'==1
+    gen has_`v' = `v'==2
 }
 
 *** medicaid, from PS notes

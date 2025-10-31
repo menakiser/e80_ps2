@@ -23,8 +23,8 @@ program main
     cap drop allinfile nomedicaid_exp medicaid_exp_pre medicaid_exp_post
     gen allinfile = 1
     gen nomedicaid_exp = medicaid_exp==0
-    gen medicaid_exp_pre = medicaid_exp==1 & post_mcaid==0 //treated state but pre expansion
-    gen medicaid_exp_post = medicaid_exp==1 & post_mcaid==1 //treated state post expansion
+    gen medicaid_exp_pre = medicaid_exp==1 & year<medicaid_exp_year //treated state but pre expansion
+    gen medicaid_exp_post = medicaid_exp==1 & year>=medicaid_exp_year //treated state post expansion
     foreach v of varlist $allvars {
         di in red "var `v'"
         storemean, varname(`v') restriction(allinfile) tosum(_cons)  mat(mall)
