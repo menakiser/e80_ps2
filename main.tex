@@ -49,11 +49,11 @@ In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover all low–inco
 \section{Data and Strategy}
 Our data comes from the 2008-2019 American Community Survey (ACS), obtained through the Integrated Public Use Microdata Series (IPUMS) \citep{data:acs}. The ACS is a yearly cross-sectional, one percent, annual survey of households in the United States collecting detailed information on social, economic, housing, and demographic characteristics of the U.S. population. We can also identify their marital status, number of children (and age of the youngest child), the type of insurance coverage they hold, and employment behavior. We should note, `children' is defined as own children in the household, including step-children, and excluding biological and step-children living elsewhere.
 
+
 Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). We have $173,554$ observation corresponding to individuals--we assume each observation represents a distinct household. During this time 34 states enacted the ACA Medicaid expansion, 3 enacted it after 2019, and 14 states never enacted it.
+As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides initial evidence that treated individuals may be less likely to move towards family formation decisions after the enactment.
 
-As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides evidence that treated individuals may be less likely to move towards family formation decisions after the enactment.
-
-We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake.
+We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake. %keep or remove this last sentence depending on whether we implement propensity matching score
 
 Regarding employment outcomes, we can see that employment (within $2\%$), usual hours worked, and share of full time workers remains within a close range, while earned income significantly increases for those in the post period by $17\%$ or $\$$2,229 and health insurance coverage through an employer increases by $19\%$.
 
@@ -92,7 +92,7 @@ Controls list:
     \item Age
     \item Race
     \item Hispanic
-    \item Marital Status
+    \item Marital Status %we see changes in the balance table for this variable but not in the d-in-d
     \item Education
     \item Employment status
     \item Income
@@ -106,16 +106,33 @@ Heterogeneity:
     \item Employment status
 \end{itemize}
 
-
-maybe not empl, maybe marital. check balance if not control or het
-CHCECK TYPES OF STATE 
+\section{Identifying Strategy}
+To identify whether the Medicaid expansion first translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach in which treatment is defined as living in a state with a Medicaid expansion after this has been enacted. We control for an individual's characteristics, including sex, age, race, Hispanic origin, and education. 
 \begin{equation}
     Y_{ist} = \beta_0 + \beta_1 expansion_{st}*post_{st} +  W_{i} + Z_{s} + V_{y}+ + \varepsilon_{sj}
 \end{equation}
-exp, post is ABS 
+
+
 
 \section{Empirical Results}
 
+
+\begin{table}[h!]
+\begin{centering}
+\singlespacing
+\caption{Insurance coverage}
+\adjustbox{width=\linewidth, center}{
+    \input{output/t1_sum_stat}
+}
+\label{tab:sumstat}
+\end{centering}
+\begin{spacing}{1}
+\begin{footnotesize}
+
+\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). 
+\end{footnotesize}
+\end{spacing}
+\end{table}
 
 \section{Discussion}
 
