@@ -88,17 +88,19 @@ program main
 
     *** coverage
     cap mat drop cov
-    reghdfe has_hcovany post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
-    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars) mat(cov)
+    reghdfe has_hcovany post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars married $empvars) mat(cov)
+    reghdfe has_hcovany post_mcaid $covars married $empvars  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars married $empvars) mat(cov)
 
-    reghdfe has_hinscaid post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(has_hinscaid) indvars(post_mcaid $covars) mat(cov)
+    reghdfe has_hinscaid post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(has_hinscaid) indvars(post_mcaid $covars married $empvars) mat(cov)
     
-    reghdfe has_hcovpub post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(has_hcovpub) indvars(post_mcaid $covars) mat(cov)
+    reghdfe has_hcovpub post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reg_to_mat, depvar(has_hcovpub) indvars(post_mcaid $covars married $empvars) mat(cov)
     
-    reghdfe has_hinsemp post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
-    reg_to_mat, depvar(has_hinsemp) indvars(post_mcaid $covars) mat(cov)
+    reghdfe has_hinsemp post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(has_hinsemp) indvars(post_mcaid $covars married $empvars) mat(cov)
 
 
     //store latex summary stats matrix, manually creating to fit desired format
@@ -115,7 +117,7 @@ program main
     local i = 1
     local rowcount = 1
 
-    while `rowcount' < 30 {
+    while `rowcount' < 45 {
         local varlab: word `i' of $cov_varnames
         * label
         file write sumstat " `varlab'  "
@@ -131,8 +133,8 @@ program main
     file write sumstat "\\" _n
     //store sample size
     forval col = 1/4 {
-        local r2_`col' = string(cov[31,`col'], "%12.3fc")
-        local n_`col' = string(cov[33,`col'], "%12.0fc")
+        local r2_`col' = string(cov[46,`col'], "%12.3fc")
+        local n_`col' = string(cov[48,`col'], "%12.0fc")
         }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
     file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
@@ -150,7 +152,7 @@ program main
     cap mat drop expdiff
 
     *** marital
-    reghdfe married post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
+    reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
     reg_to_mat, depvar(married) indvars(post_mcaid $covars) mat(expdiff)
 
     *** employment 
@@ -178,7 +180,7 @@ program main
     local i = 1
     local rowcount = 1
 
-    while `rowcount' < 30 {
+    while `rowcount' < 33 {
         local varlab: word `i' of $cov_varnames
         * label
         file write sumstat " `varlab'  "
@@ -243,11 +245,12 @@ end
 global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby // maybe newparent, maybe: employed incearn fulltime
 global covars male age /*race*/ white /*black native asian other*/ any_hispan /* marital status married separated single*/ /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 //employed incearn fulltime
 global hetvars male any_hispan employed
+global empvars employed incearn fulltime uhrswork
 *** for tables
 global allvars "male age white black native asian other any_hispan married separated single nchild yngch newbaby newparent has_hcovany has_hinsemp has_hcovpub has_hinscaid educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 educ_sp_d2 educ_sp_d3 educ_sp_d4 educ_sp_d5 educ_sp_d6 educ_sp_d7 educ_sp_d8 educ_sp_d9 educ_sp_d10 educ_sp_d11 employed incearn uhrswork fulltime "
 global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3cm}  Black" "\hspace{0.3cm}  Native American" "\hspace{0.3cm}  Asian" "\hspace{0.3cm}  Other" "Hispanic origin" "Marital status" "\hspace{0.3cm} Currently married" "\hspace{0.3cm} Separated" "\hspace{0.3cm} Single"  "Number of children" "Age of youngest child" "Has baby age $<$1" "New parent" "Insurance coverage" "\hspace{0.3cm}  Any coverage" "\hspace{0.3cm}  Coverage through employer"  "\hspace{0.3cm}  Public insurance coverage"  "\hspace{0.3cm}  Coverage through Medicaid"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Educational attainment of spouse" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "\hspace{0.3cm} Grade 12" "\hspace{0.3cm} 1 year of college" "\hspace{0.3cm} 2 years of college" "\hspace{0.3cm} 4 years of college"  "\hspace{0.3cm} 5$+$ years of college" "Employed" "Earned income" "Usual weekly hours worked" "Full time (40$+$ work hrs)"  "'
 
-global cov_varnames `" "Medicaid expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "'
+global cov_varnames `" "Medicaid expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Currently married" "Employed" "Earned income" "Weekly work hours" "Full time status"  "'
 
 
 cap program drop storemean
