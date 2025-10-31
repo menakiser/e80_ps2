@@ -38,7 +38,7 @@ gen asian = inlist(race, 4, 5, 6)
 gen other = inlist(race, 7, 8, 9)
 tab educ, gen(educ_d)
 tab educ_sp, gen(educ_sp_d)
-gen hispan_sum = hispan!=0
+gen any_hispan = hispan!=0
 
 **** work variables
 gen fulltime = uhrswork>=40

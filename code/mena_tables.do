@@ -1,5 +1,5 @@
 /* 
-initial ACS data cleaning
+summar stats
 10/28/25
 mena kiser 
 */
@@ -12,53 +12,7 @@ global dd "$wd/data/"
 global od "$wd/output/"
 
 
-
-* obtain ACS data as provided 
-use "$dd/ps2_acs_2008to2019-5.dta", clear
-
-* create variables to best evaluate baseline group
-
-*** age and childbearing
-replace yngch = . if yngch==99
-gen newbaby = yngch<=1 & yngch!=. 
-gen newparent = newbaby & nchild==1
-//try freshbaby= yngch<=0 & yngch!=. 
-
-*** demographic variables
-gen male = sex==1
-gen married = inlist(marst, 1, 2)
-gen separated = inlist(marst, 3)
-gen single = inlist(marst, 4, 5, 6) //to change depending on specification
-
-**** race
-gen white = race==1
-gen black = race==2
-gen native = race==3
-gen asian = inlist(race, 4, 5, 6)
-gen other = inlist(race, 7, 8, 9)
-tab educ, gen(educ_d)
-tab educ_sp, gen(educ_sp_d)
-gen any_hispan = hispan!=0
-
-**** work variables
-gen fulltime = uhrswork>=40
-gen employed = empstat==1
-foreach v in hcovany hinsemp hcovpub hinscaid {
-    gen has_`v' = `v'==1
-}
-
-/*** medicaid
-gen post_mcaid = (year>=medicaid_exp_year)* medicaid_exp” creates a
-dummy=1 for years in which Medicaid expansion is in effect in a state, e.g. treated*post.
-gen mcaid_plus1 = (year==medicaid_exp_year+1)* medicaid_exp
-gen mcaid_minus2 = (year==medicaid_exp_year-2)* medicaid_exp*/
-
-
-*** additional controls
-
-compress
-save "$dt/working_data", replace
-
+use "$dd/ps2_working_data" , clear 
 
 //note: no identifying variables: no serial and pernum
 //incearn is bottom coded at -$9,999
@@ -130,7 +84,7 @@ file write sumstat "\\" _n
 local n1 = string(mall[1,3], "%12.0fc")
 local n2 = string(mun[1,3], "%12.0fc")
 local n3 = string(mtr[1,3], "%12.0fc")
-file write sumstat "Observations & \multicolumn{2}{c}{`n1'} & \multicolumn{2}{c}{`n2'} & \multicolumn{2}{c}{`n3'} \\" _n
+file write sumstat "Sample size & \multicolumn{2}{c}{`n1'} & \multicolumn{2}{c}{`n2'} & \multicolumn{2}{c}{`n3'} \\" _n
 file write sumstat "\bottomrule" _n
 file write sumstat "\bottomrule" _n
 file write sumstat "\end{tabular}"
