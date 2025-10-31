@@ -57,23 +57,6 @@ We see that individuals in treated states have any health insurance coverage ($2
 
 Regarding employment outcomes, we can see that employment (within $2\%$), usual hours worked, and share of full time workers remains within a close range, while earned income significantly increases for those in the post period by $17\%$ or $\$$2,229 and health insurance coverage through an employer increases by $19\%$.
 
-\begin{table}[h!]
-\begin{centering}
-\singlespacing
-\caption{Summary Statistics}
-\adjustbox{width=\linewidth, center}{
-    \input{output/t1_sum_stat}
-}
-\label{tab:sumstat}
-\end{centering}
-\begin{spacing}{1}
-\begin{footnotesize}
-
-\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). 
-\end{footnotesize}
-\end{spacing}
-\end{table}
-
 
 Outcomes list:
 \begin{itemize}
@@ -117,6 +100,34 @@ To identify whether the Medicaid expansion first translated into higher Medicaid
 \section{Empirical Results}
 
 
+\section{Discussion}
+
+
+\newpage
+\bibliography{bib_ps2}
+
+\newpage
+\section{Tables}
+
+
+\begin{table}[h!]
+\begin{centering}
+\singlespacing
+\caption{Summary Statistics}
+\adjustbox{width=\linewidth, center}{
+    \input{output/t1_sum_stat}
+}
+\label{tab:sumstat}
+\end{centering}
+\begin{spacing}{1}
+\begin{footnotesize}
+
+\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). 
+\end{footnotesize}
+\end{spacing}
+\end{table}
+
+
 \begin{table}[h!]
 \begin{centering}
 \singlespacing
@@ -134,75 +145,5 @@ To identify whether the Medicaid expansion first translated into higher Medicaid
 \end{spacing}
 \end{table}
 
-\section{Discussion}
-
-
-\newpage
-\bibliography{bib_ps2}
-
-\newpage
-\section{Tables}
-
-\begin{comment}
-    
-\begin{table}[h!]
-\begin{centering}
-\doublespacing
-\caption{Summary Statistics}
-\adjustbox{width=0.75\linewidth, center}{
-    \input{t1_sum_stat}
-}
-\label{tab:sumstat}
-\end{centering}
-\begin{spacing}{1}
-\begin{footnotesize}
-
-\textit{Notes:} This table summarizes students’ math test scores, absence rate at the student and class levels, and the rate of chronic absenteeism at the student and class levels. We also summarize main student covariates using shares from 0 to 1.
-\end{footnotesize}
-\end{spacing}
-\end{table}
-
-
-\begin{table}[h]
-\begin{centering}
-\doublespacing
-\caption{Math Scores Value Added, Evaluating Multi-Level Covariates}
-\adjustbox{ width=\linewidth}{
-    \input{t2_add_controls} \label{tab:tcontrols}
-}
-\end{centering}
-\begin{spacing}{1} \begin{footnotesize} \textit{Notes:} This table evaluates the effect of covariates at the student, class, teacher, and school level on the value added function for standardized math scores. Column 1 evaluates the effects of the absence rate (days absent/days enrolled) at the student level, the average classroom rate, and the average school level rate, with fixed effects at the grade-school year level. Column 2 focuses on the student rate and incorporates student covariates. Column 3 evaluates all independent variables from Column 1 and incorporates student, classroom, teacher, and school covariates. Column 4 incorporates school level fixed effects. Column 5 incorporates school-grade-year fixed effects. p $<$ 0.01 ***, p $<$ 0.05 **, p $<$0.1 *. 
-\end{footnotesize} 
-\end{spacing}
-\end{table}
-
-
-\begin{table}[h]
-\begin{centering}
-\begin{spacing}{1.5}
-\caption{Math Scores Value Added, Class-Student Differentials}
-\adjustbox{ width=\linewidth}{
-    \input{t3_class_student} \label{tab:class_diffs}
-}
-\end{spacing}
-\end{centering}
-\begin{spacing}{1} \begin{footnotesize} \textit{Notes:} This table evaluates the effect of student characteristics relative to (or interacted with) class characteristics. Column 1 replicates Column 3 from Table \ref{tab:tcontrols}, serving as a baseline. Column 2 adds an interaction between a student’s relative prior year math score (their previous year’s standardized score minus their class’s average) and their absence rate. Column 3 adds an interaction between a student’s relative gifted program status (their status minus their class share of gifted students) and their absence rate. Column 4 adds an interaction between a student’s relative free/reduced price lunch eligibility (their status minus their class share of eligible free/reduced price lunch) and their absence rate. Column 5 adds an interaction between the class average absence rate and the student absence rate, absence rate is unpacked further in Table \ref{tab:chronic_abs}. p $<$ 0.01 ***, p $<$ 0.05 **, p $<$0.1 *. 
-\end{footnotesize}
-\end{spacing}
-\end{table}
-
-\begin{table}[h]
-\begin{centering}
-\doublespacing
-\caption{Math Scores Value Added, Chronic Absenteeism}
-\adjustbox{ width=\linewidth}{
-    \input{t4_chronic_absenteism} \label{tab:chronic_abs}
-}
-\end{centering}
-\begin{spacing}{1} \begin{footnotesize} \textit{Notes:} This table evaluates the effect of the absolute absence rate compared with chronic absence, or being absent more than 10\% of the time, as well as the effects of other students in the class and school being chronically absent. Student covariates include a cubic polynomial for their previous test scores; dummies for whether they receive free/reduced lunch (a proxy for poverty), have an individualized education plan (an indicator of special education status), are an English Language Learner, are in the gifted program, or are male; and variables for their race and ethnicity. Teacher covariates include their age, race/ethnicity, experience, level of education, number of students they teach, and dummies for whether they are male and whether they are a new hire. Class covariates include the number of students in the class; the mean math score of the class; and the share of students with the characteristics highlighted in the student covariates. School covariates include the poverty quartile, number of students, school average math scores, and the share of students with the characteristics highlighted in the student covariates. p $<$ 0.01 ***, p $<$ 0.05 **, p $<$0.1 *.  \end{footnotesize}  \end{spacing}
-\end{table}
-
-
-\end{comment}
 
 \end{document}
