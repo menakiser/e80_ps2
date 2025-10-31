@@ -11,7 +11,7 @@
 \usepackage{caption, subcaption}
 \usepackage[margin=1in]{geometry} %margins
 \usepackage[colorlinks = true, urlcolor = blue, linkcolor = blue, citecolor = blue]{hyperref}
-\usepackage[parfill]{parskip} % first line skip 
+%\usepackage[parfill]{parskip} % first line skip 
 \setlength{\parindent}{15pt} %for paragraph indent
 \usepackage{indentfirst} %for first paragraph indent
 \usepackage{setspace} %line spacing
@@ -41,12 +41,39 @@
     In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover to all low-income adults as opposed to primarily families with children. This study exploits the state differential take-up of this policy to evaluate effects on childbearing decisions in the targeted population. Using 2008-2019 American Community Survey (ACS), we implement a XX design with treatment defined as XX
 \end{abstract}
 
+% I think we can remove the abstract?
+\section{Introduction}
+In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover all low–income adults, opposed to primarily families with children. Previous research on this expansion has found increases in healthcare coverage and reductions in mortality, especially among younger and less-educated populations. Our research further investigates the impact of this expansion on childbearing among these groups. With the broader coverage, there are fewer incentives to work, since individuals no longer rely on employers for health insurance. At the same time, the expansion may also directly reduce incentives to have children, as individuals no longer need children to qualify for Medicaid. We exploit the staggered take–up of the expansion across states to estimate the impact of the expansion on insurance uptake, employment, and childbearing among less educated young adults.
+
+
 \section{Data and Strategy}
-Our data comes from the 2008-2019 American Community Survey (ACS), obtained through the Integrated Public Use Microdata Series (IPUMS) \citep{data:acs}. The ACS is a yearly cross-sectional, one percent, annual survey of households in the United States collecting detailed information on social, economic, housing, and demographic characteristics of the U.S. population.
+Our data comes from the 2008-2019 American Community Survey (ACS), obtained through the Integrated Public Use Microdata Series (IPUMS) \citep{data:acs}. The ACS is a yearly cross-sectional, one percent, annual survey of households in the United States collecting detailed information on social, economic, housing, and demographic characteristics of the U.S. population. We can also identify their marital status, number of children (and age of the youngest child), the type of insurance coverage they hold, and employment behavior. We should note, `children' is defined as own children in the household, including step-children, and excluding biological and step-children living elsewhere.
 
-Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). We have $173,554$ observation corresponding to individuals--we assume each observation represents a distinct household. As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. Notably, we see that, while basic demographics (sex, age, education) remain close
+Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). We have $173,554$ observation corresponding to individuals--we assume each observation represents a distinct household. During this time 34 states enacted the ACA Medicaid expansion, 3 enacted it after 2019, and 14 states never enacted it.
 
-Comment on limitations of data for age of youngest 
+As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides evidence that treated individuals may be less likely to move towards family formation decisions after the enactment.
+
+We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake.
+
+Regarding employment outcomes, we can see that employment (within $2\%$), usual hours worked, and share of full time workers remains within a close range, while earned income significantly increases for those in the post period by $17\%$ or $\$$2,229 and health insurance coverage through an employer increases by $19\%$.
+
+\begin{table}[h!]
+\begin{centering}
+\singlespacing
+\caption{Summary Statistics}
+\adjustbox{width=\linewidth, center}{
+    \input{output/t1_sum_stat}
+}
+\label{tab:sumstat}
+\end{centering}
+\begin{spacing}{1}
+\begin{footnotesize}
+
+\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). 
+\end{footnotesize}
+\end{spacing}
+\end{table}
+
 
 Outcomes list:
 \begin{itemize}
@@ -79,25 +106,6 @@ Heterogeneity:
     \item Employment status
 \end{itemize}
 
-
-
-
-\begin{table}[h!]
-\begin{centering}
-\singlespacing
-\caption{Summary Statistics}
-\adjustbox{width=\linewidth, center}{
-    \input{output/t1_sum_stat}
-}
-\label{tab:sumstat}
-\end{centering}
-\begin{spacing}{1}
-\begin{footnotesize}
-
-\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married, separated, or single (divorced, widowed, never married).
-\end{footnotesize}
-\end{spacing}
-\end{table}
 
 maybe not empl, maybe marital. check balance if not control or het
 CHCECK TYPES OF STATE 

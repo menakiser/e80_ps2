@@ -19,3 +19,6 @@ Answers from Doug 10/30:
 - Control vars: Net controls make sens: Sex, Age, Race, Hispanic, education. Some listed controls could be outcomes:
     * Marital Status (are people more likely to get married to accesss medicaid through their spouse or meet income threshold),
     * Employment status, Income, Full-time worker dummy (do people work less because they do not need to cover their medical expenses anymore), Income (same logic as emplo)
+
+thoughts:
+- what do we feel about controling for having medicaid post exposure? triple dif or just control?
