@@ -109,6 +109,7 @@ program main
     file write sumstat "\toprule" _n
     file write sumstat " Variable & Any insurance & Medicaid & Public insurance & Coverage through \\" _n
     file write sumstat "  & coverage & coverage & coverage &  employer \\" _n
+    file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
     file write sumstat "\midrule " _n 
     
     local i = 1
@@ -171,6 +172,7 @@ program main
     file write sumstat "\toprule" _n
     file write sumstat " Variable & Currently & Employed & Earned & Full time & Weekly \\" _n
     file write sumstat "  & married &  & income &  status & hours \\" _n
+    file write sumstat "  & (1) & (2) & (3) &  (4) & (5) \\" _n
     file write sumstat "\midrule " _n 
     
     local i = 1
