@@ -51,7 +51,8 @@ Our data comes from the 2008-2019 American Community Survey (ACS), obtained thro
 
 
 Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). We have $173,554$ observation corresponding to individuals--we assume each observation represents a distinct household. During this time 34 states enacted the ACA Medicaid expansion, 3 enacted it after 2019, and 14 states never enacted it.
-As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides initial evidence that treated individuals may be less likely to move towards family formation decisions after the enactment.
+
+As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides initial evidence that treated individuals may be less likely to move towards family formation decisions after the enactment and we should further test whether this is absorbed by state and year differentials \footnote{We test this in Column 1 of Table \ref{tab:expdiff} and find a very small $(4.57e-17)$ and statistically insignificant effect of the expansion and post period on being married.}.
 
 We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake. %keep or remove this last sentence depending on whether we implement propensity matching score
 
@@ -109,7 +110,7 @@ To identify whether the Medicaid expansion first translated into higher Medicaid
 \newpage
 \section{Tables}
 
-
+\newpage
 \begin{table}[h!]
 \begin{centering}
 \singlespacing
@@ -127,7 +128,7 @@ To identify whether the Medicaid expansion first translated into higher Medicaid
 \end{spacing}
 \end{table}
 
-
+\newpage
 \begin{table}[h!]
 \begin{centering}
 \singlespacing
@@ -141,6 +142,24 @@ To identify whether the Medicaid expansion first translated into higher Medicaid
 \begin{footnotesize}
 
 \textit{Notes:} This table explores the effect of the expansion on take up of health insurance by type.
+\end{footnotesize}
+\end{spacing}
+\end{table}
+
+\newpage
+\begin{table}[h!]
+\begin{centering}
+\singlespacing
+\caption{Differentials across expansion year}
+\adjustbox{width=\linewidth, center}{
+    \input{output/expdiff}
+}
+\label{tab:expdiff}
+\end{centering}
+\begin{spacing}{1}
+\begin{footnotesize}
+
+\textit{Notes:} This table explores the effect of the expansion on marital status and employment outcomes.
 \end{footnotesize}
 \end{spacing}
 \end{table}
