@@ -134,11 +134,9 @@ program main
     //store sample size
     forval col = 1/4 {
         local r2_`col' = string(cov[46,`col'], "%12.3fc")
-        local um_`col' = string(cov[47,`col'], "%12.3fc")
         local n_`col' = string(cov[48,`col'], "%12.0fc")
-        }
+    }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
-    file write sumstat "Untreated mean & `um_1' & `um_2' & `um_3' & `um_4' \\" _n
     file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
     file write sumstat "\bottomrule" _n
     file write sumstat "\bottomrule" _n
@@ -199,11 +197,9 @@ program main
     //store sample size
     forval col = 1/5 {
         local r2_`col' = string(expdiff[34,`col'], "%12.3fc")
-        local um_`col' = string(expdiff[35,`col'], "%12.3fc")
         local n_`col' = string(expdiff[36,`col'], "%12.0fc")
         }
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' & `r2_5' \\" _n
-    file write sumstat "Untreated mean & `um_1' & `um_2' & `um_3' & `um_4' & `um_5' \\" _n
     file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4'  & `n_5' \\" _n
     file write sumstat "\bottomrule" _n
     file write sumstat "\bottomrule" _n
