@@ -32,7 +32,6 @@ program main
         storemean, varname(`v') restriction(medicaid_exp_pre) tosum(medicaid_exp) mat(mpre) cond(nocons)
         storemean, varname(`v') restriction(medicaid_exp_post) tosum(medicaid_exp) mat(mpost) cond(nocons)
     }
-    drop allinfile nomedicaid_exp medicaid_exp_pre medicaid_exp_post
 
     //store latex summary stats matrix, manually creating to fit desired format
     cap file close sumstat
@@ -40,7 +39,7 @@ program main
     file write sumstat "\begin{tabular}{lcccccccc}" _n
     file write sumstat "\toprule" _n
     file write sumstat "\toprule" _n
-    file write sumstat "  & & & & & \multicolumn{4}{c}{Ever State} \\" _n
+    file write sumstat "  & & & & & \multicolumn{4}{c}{State Ever Treated} \\" _n
     file write sumstat " Variable & \multicolumn{2}{c}{All} & \multicolumn{2}{c}{Never Treated} & \multicolumn{2}{c}{Pre Expansion} & \multicolumn{2}{c}{Post Expansion} \\" _n
     file write sumstat "\midrule " _n 
     local ncount : word count $sum_varnames
@@ -66,16 +65,21 @@ program main
         }
     }
     file write sumstat "\\" _n
-    local n1 = string(mall[1,3], "%12.0fc")
-    local n2 = string(mun[1,3], "%12.0fc")
-    local n3 = string(mpre[1,3], "%12.0fc")
-    local n3 = string(mpost[1,3], "%12.0fc")
-    file write sumstat "Sample size & \multicolumn{2}{c}{`n1'} & \multicolumn{2}{c}{`n2'} & \multicolumn{2}{c}{`n3'} \\" _n
+    //store sample size
+    file write sumstat "Sample size"
+    foreach v in  allinfile nomedicaid_exp medicaid_exp_pre medicaid_exp_post {
+        qui count if `v'==1
+        local size = string( r(N), "%12.0fc" )
+        file write sumstat " & \multicolumn{2}{c}{`size'} "
+    }
+    file write sumstat " \\" _n
+
     file write sumstat "\bottomrule" _n
     file write sumstat "\bottomrule" _n
     file write sumstat "\end{tabular}"
     file close sumstat
 
+    drop allinfile nomedicaid_exp medicaid_exp_pre medicaid_exp_post
 
 end
 
