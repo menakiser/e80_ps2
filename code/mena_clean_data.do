@@ -60,8 +60,8 @@ forval i = 1/11 {
 }
 
 *** outcomes, controls, and heterogeneity variables to try 
-global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby //newparent
-global covars male age /*race*/ white black native asian other any_hispan /* marital status*/ married separated single /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 employed incearn fulltime
+global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby // maybe newparent, maybe: employed incearn fulltime
+global covars male age /*race*/ white black native asian other any_hispan /* marital status*/ married separated single /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 //employed incearn fulltime
 global hetvars male any_hispan employed
 
 compress

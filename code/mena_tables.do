@@ -80,13 +80,49 @@ program main
     file close sumstat
 
     drop allinfile nomedicaid_exp medicaid_exp_pre medicaid_exp_post
+    
+    /*****************************************************
+    Table 2: Define focus regression
+    ******************************************************/
+    
+    *** coverage
+    reghdfe has_hcovany post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos, p=0, male (-), white (+), hispanic (-), are all significant
+    reghdfe has_hinscaid post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos, p=0, male (-), white (-), hispanic (-), are all significant
+    reghdfe has_hinsemp post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos very close to 0, p=0.8, male (+), white (+), hispanic (-), p=0.3), are all significant
+
+    *** marital
+    reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg and small high p, male (-), age (+), white (+), hispan
+
+    *** employment 
+    reghdfe employed post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
+    reghdfe incearn post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg small high p, male (+), age (+), white (+), hispan (+),
+    reghdfe fulltime post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
+    reghdfe uhrswork post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
+
+    *** childbearing, age is more important here
+    reghdfe nchild post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+)
+    reghdfe newbaby post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.2, male (-), age (-), white (+), hispanic (+)
+
+    * not many changes when including married
+    reghdfe nchild post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg, p=0.1, male (-), age (+), white (+), hispanic (+)
+    reghdfe newbaby post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.2, male (-), age (-), white (+), hispanic (+)
+
+    * not many changes when adding employment 
+    reghdfe nchild post_mcaid $covars  employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+), adding employment makes the var
+    reghdfe newbaby post_mcaid $covars married employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.4, male (-), age (+), white (+), hispanic (+)
+
+    *
+    reghdfe nchild post_mcaid $covars married employed fulltime i.has_hinscaid [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+), adding employment does not
+    reghdfe newbaby post_mcaid $covars married employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.4, male (-), age (+), white (+), hispanic (+)
+    
+
 
 end
 
 * set up globals 
 *** outcomes, controls, and heterogeneity variables to try 
-global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby //newparent
-global covars male age /*race*/ white black native asian other any_hispan /* marital status*/ married separated single /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 employed incearn fulltime
+global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby // maybe newparent, maybe: employed incearn fulltime
+global covars male age /*race*/ white /*black native asian other*/ any_hispan /* marital status married separated single*/ /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 //employed incearn fulltime
 global hetvars male any_hispan employed
 *** for tables
 global allvars "male age white black native asian other any_hispan married separated single nchild yngch newbaby newparent has_hcovany has_hinsemp has_hcovpub has_hinscaid educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 educ_sp_d2 educ_sp_d3 educ_sp_d4 educ_sp_d5 educ_sp_d6 educ_sp_d7 educ_sp_d8 educ_sp_d9 educ_sp_d10 educ_sp_d11 employed incearn uhrswork fulltime "
