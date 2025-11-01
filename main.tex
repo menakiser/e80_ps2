@@ -46,7 +46,7 @@
 In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover all low–income adults, opposed to primarily families with children. Previous research on this expansion has found increases in healthcare coverage and reductions in mortality, especially among younger and less-educated populations. Our research further investigates the impact of this expansion on childbearing among these groups. With the broader coverage, there are fewer incentives to work, since individuals no longer rely on employers for health insurance. At the same time, the expansion may also directly reduce incentives to have children, as individuals no longer need children to qualify for Medicaid. We exploit the staggered take–up of the expansion across states to estimate the impact of the expansion on insurance uptake, employment, and childbearing among less educated young adults.
 
 
-\section{Data and Strategy}
+\section{Data }
 Our data comes from the 2008-2019 American Community Survey (ACS), obtained through the Integrated Public Use Microdata Series (IPUMS) \citep{data:acs}. The ACS is a yearly cross-sectional, one percent, annual survey of households in the United States collecting detailed information on social, economic, housing, and demographic characteristics of the U.S. population. We can also identify their marital status, number of children (and age of the youngest child), the type of insurance coverage they hold, and employment behavior. We should note, `children' is defined as own children in the household, including step-children, and excluding biological and step-children living elsewhere.
 
 
@@ -60,7 +60,7 @@ Regarding employment outcomes, we can see that employment (within $2\%$), usual 
 We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake. %keep or remove this last sentence depending on whether we implement propensity matching score
 
 
-
+\begin{comment}
 Outcomes list:
 \begin{itemize}
     \item Any coverage
@@ -91,6 +91,7 @@ Heterogeneity:
     \item Hispanic v. Not Hispanic
     \item Employment status
 \end{itemize}
+\end{comment}
 
 \section{Identifying Strategy}
 To identify whether the Medicaid expansion translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach in which treatment is defined as living in a state with a Medicaid expansion after this has been enacted. We control for an individual's characteristics $W_{i}$, including sex, age, race, marital status, Hispanic origin, education, and employment behavior. We later test (Table \ref{tab:expdiff}) whether marital status and employment behavior is affected by the expansion finding no identifiable trend. We include fixed effects at the state level $Z_{s}$ and at the survey year level $V_{y}$. As the policy is enacted at the state and year level we clustered standard errors at the state and year levels.
@@ -100,7 +101,10 @@ To identify whether the Medicaid expansion translated into higher Medicaid cover
     Y_{ist} = \beta_0 + \beta_1 expansion_{st}*post_{st} +  W_{i} + Z_{s} + V_{y}+ + \varepsilon_{s,j}
 \end{equation}
 
-In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables. We see that ...
+In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables to identify the effect of the policy in uptake rates. We see that after the Medicaid expansion is enacted, people in these states see an increase in 
+
+
+... sex, hispanic , employment, maybe education level are important thus we'll evaluate het of results on childbearing by these vars
 
 \section{Empirical Results}
 
