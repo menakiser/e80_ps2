@@ -93,20 +93,21 @@ Heterogeneity:
 \end{itemize}
 \end{comment}
 
-\section{Identifying Strategy}
-To identify whether the Medicaid expansion translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach in which treatment is defined as living in a state with a Medicaid expansion after this has been enacted. We control for an individual's characteristics $W_{i}$, including sex, age, race, marital status, Hispanic origin, education, and employment behavior. We later test (Table \ref{tab:expdiff}) whether marital status and employment behavior is affected by the expansion finding no identifiable trend. We include fixed effects at the state level $Z_{s}$ and at the survey year level $V_{y}$. As the policy is enacted at the state and year level we clustered standard errors at the state and year levels.
+\section{Empirical Strategy and Results}
+To identify whether the Medicaid expansion translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach in which treatment is defined as living in a state with a Medicaid expansion after this has been enacted. We control for an individual's characteristics $W_{i}$, including sex, age, race, marital status, Hispanic origin, education, and employment behavior. We later test in Table \ref{tab:expdiff}, whether marital status and employment behavior is affected by the expansion finding no identifiable trend. We include fixed effects at the state level $Z_{s}$ and at the survey year level $V_{y}$. As the policy is enacted at the state and year level we clustered standard errors at the state and year levels.
 
 \begin{equation}
     \label{eq:did}
     Y_{ist} = \beta_0 + \beta_1 expansion_{st}*post_{st} +  W_{i} + Z_{s} + V_{y}+ + \varepsilon_{s,j}
 \end{equation}
 
-In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables to identify the effect of the policy in uptake rates. We see that after the Medicaid expansion is enacted, people in these states see an increase in 
+In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables to identify the effect of the policy in uptake rates. We see that after the Medicaid expansion is enacted, people in these states see an increase in health insurance coverage from any type by $0.107$ p.p. (or $25\%$ ish relative to pre-treated  C3 in T1), an increase of $0.108$ p.p. (or $46\%$) in Medicaid coverage, and an increase of $0.111$ p.p. (or $46\%$) in public insurance--which signals the increase comes largely from the Medicaid increase. The policy seems to be associated with a large and significant increase in Medicaid signaling the expansion actually translated into a larger take up rate in our sample. We also see differences in effects by sex, Hispanic origin, and employment status, thus we choose these parameters to later evaluate heterogeneity of results for the effects of the expansion on childbearing. 
+
+In Table \ref{tab:cov}, we can also see that the effect of being currently married is positively associated with having any type of health insurance coverage and coverage through an employer, and negatively correlated with having Medicaid coverage. This can be explained by how by being married you are more likely to have an employed adult in your household and receive coverage through that employer. We explore if the Medicaid expansion made people less likely to be married as receiving Medicaid coverage reduces incentives for getting married and obtaining health insurance coverage through their employer. In Table \ref{tab:expdiff}, we identify that the Medicaid expansion can be associated with a change of $-0.009$ (or $-2\%$) in the chance of being currently married; given that this effect is small and not statistically significant, we decide to include this as a control when evaluating the effect of childbearing decisions. ADD TEXT ON EMPLOYMENT OUTCOMES
 
 
-... sex, hispanic , employment, maybe education level are important thus we'll evaluate het of results on childbearing by these vars
 
-\section{Empirical Results}
+
 
 
 \section{Discussion}
@@ -131,7 +132,7 @@ In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance c
 \begin{spacing}{1}
 \begin{footnotesize}
 
-\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). 
+\textit{Notes:} This table summarizes main respondent characteristics. Marital status is grouped into currently married (with spouse present or absent), separated, or single (divorced, widowed, never married). Public insurance includes federal insurance programs of three kinds: Medicare, Medicaid, and Department of Veterans Affairs insurance.
 \end{footnotesize}
 \end{spacing}
 \end{table}
