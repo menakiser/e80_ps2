@@ -263,7 +263,7 @@ program main
             local++ i
         }
         file write sumstat "\\" _n
-        file write sumstat "Employment behavior covariates  &  &  & X & X \\" _n
+        file write sumstat "Employment covariates  &  &  & X & X \\" _n
         //store sample size
         forval col = 1/4 {
             local r2_`col' = string(m`mname'[7,`col'], "%12.3fc")
