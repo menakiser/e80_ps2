@@ -251,8 +251,7 @@ program main
 
         local outlab: word `i' of $outlabs
         file write sumstat " \multicolumn{5}{c}{Panel `mname': `outlab' } \\" _n
-        file write sumstat " Independent Variable & & & &  \\" _n
-        file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
+        file write sumstat " Independent Variable & (1) & (2) & (3) &  (4) \\" _n
         file write sumstat "\midrule " _n 
 
         while `rowcount' < 6 {
