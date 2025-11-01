@@ -107,7 +107,7 @@ program main
     file write sumstat "\begin{tabular}{lcccc}" _n
     file write sumstat "\toprule" _n
     file write sumstat "\toprule" _n
-    file write sumstat " Variable & Any insurance & Medicaid & Public insurance & Coverage through \\" _n
+    file write sumstat " Independent Variable & Any insurance & Medicaid & Public insurance & Coverage through \\" _n
     file write sumstat "  & coverage & coverage & coverage &  employer \\" _n
     file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
     file write sumstat "\midrule " _n 
@@ -170,7 +170,7 @@ program main
     file write sumstat "\begin{tabular}{lccccc}" _n
     file write sumstat "\toprule" _n
     file write sumstat "\toprule" _n
-    file write sumstat " Variable & Currently & Employed & Earned & Full time & Weekly \\" _n
+    file write sumstat " Independent Variable & Currently & Employed & Earned & Full time & Weekly \\" _n
     file write sumstat "  & married &  & income &  status & hours \\" _n
     file write sumstat "  & (1) & (2) & (3) &  (4) & (5) \\" _n
     file write sumstat "\midrule " _n 
@@ -250,8 +250,8 @@ program main
         local rowcount = 1
 
         local outlab: word `i' of $outlabs
-        file write sumstat " \multicolumn{5}{c}{Panel `mname'} \\" _n
-        file write sumstat " Variable & \multicolumn{4}{c}{Outcome: `outlab' } \\" _n
+        file write sumstat " \multicolumn{5}{c}{Panel `mname': `outlab' } \\" _n
+        file write sumstat " Independent Variable & & & &  \\" _n
         file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
         file write sumstat "\midrule " _n 
 
@@ -274,6 +274,7 @@ program main
         file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
 
 
+        file write sumstat "\midrule" _n
         file write sumstat "\midrule" _n
     }
 
