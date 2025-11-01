@@ -245,11 +245,11 @@ program main
     file write sumstat "\toprule" _n
     file write sumstat "\toprule" _n
 
+    local p = 1
     foreach mname in A B {
         local i = 1
         local rowcount = 1
-
-        local outlab: word `i' of $outlabs
+        local outlab: word `p' of $outlabs
         file write sumstat " \multicolumn{5}{c}{Panel `mname': `outlab' } \\" _n
         file write sumstat " Independent Variable & (1) & (2) & (3) &  (4) \\" _n
         file write sumstat "\midrule " _n 
@@ -275,6 +275,7 @@ program main
 
         file write sumstat "\midrule" _n
         file write sumstat "\midrule" _n
+        local++ p
     }
 
     file write sumstat "\bottomrule" _n
