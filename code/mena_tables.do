@@ -90,9 +90,7 @@ program main
     cap mat drop cov
     reghdfe has_hcovany post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
     reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars married $empvars) mat(cov)
-    reghdfe has_hcovany post_mcaid $covars married $empvars  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
-    reg_to_mat, depvar(has_hcovany) indvars(post_mcaid $covars married $empvars) mat(cov)
-
+    
     reghdfe has_hinscaid post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
     reg_to_mat, depvar(has_hinscaid) indvars(post_mcaid $covars married $empvars) mat(cov)
     
