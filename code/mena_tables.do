@@ -206,36 +206,85 @@ program main
 
 
 
+    /*****************************************************
+    Table 4: Childbearing
+    ******************************************************/
+    use "$dd/ps2_working_data" , clear 
+
+    **** number of children 
+    cap mat drop matnch
+    * including married as covariates
+    reghdfe nchild post_mcaid $covars married  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(nchild) indvars(post_mcaid has_hinscaid ) mat(mA)
+    reghdfe nchild post_mcaid has_hinscaid $covars married  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(nchild) indvars(post_mcaid has_hinscaid ) mat(mA)
+    * including married and employment behavior as covariates
+    reghdfe nchild post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(nchild) indvars(post_mcaid has_hinscaid ) mat(mA)
+    reghdfe nchild post_mcaid has_hinscaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(nchild) indvars(post_mcaid has_hinscaid ) mat(mA)
+
+    **** new babies
+    cap mat drop matnew
+    * including married as covariates
+    reghdfe newbaby post_mcaid $covars married  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(newbaby) indvars(post_mcaid has_hinscaid ) mat(mB)
+    reghdfe newbaby post_mcaid has_hinscaid $covars married  [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(newbaby) indvars(post_mcaid has_hinscaid ) mat(mB)
+    * including married and employment behavior as covariates
+    reghdfe newbaby post_mcaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(newbaby) indvars(post_mcaid has_hinscaid ) mat(mB)
+    reghdfe newbaby post_mcaid has_hinscaid $covars married $empvars [pw=perwt], vce(cluster statefip year) absorb(statefip year) 
+    reg_to_mat, depvar(newbaby) indvars(post_mcaid has_hinscaid ) mat(mB)
+
+
+    //store latex summary stats matrix, manually creating to fit desired format
+    cap file close sumstat
+    file open sumstat using "$od/child_did.tex", write replace
+    file write sumstat "\begin{tabular}{lcccc}" _n
+    file write sumstat "\toprule" _n
+    file write sumstat "\toprule" _n
+
+    foreach mname in A B {
+        local i = 1
+        local rowcount = 1
+
+        local outlab: word `i' of $outlabs
+        file write sumstat " \multicolumn{5}{c}{Panel `mname'} \\" _n
+        file write sumstat " Variable & \multicolumn{4}{c}{Outcome: `outlab' } \\" _n
+        file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
+        file write sumstat "\midrule " _n 
+
+        while `rowcount' < 6 {
+            local varlab: word `i' of $childd
+            * label
+            file write sumstat " `varlab'  "
+            storecoeff, mat(m`mname') row(`rowcount') cols(1 2 3 4)
+            local rowcount = `rowcount' +3
+            local++ i
+        }
+        file write sumstat "\\" _n
+        file write sumstat "Employment behavior covariates  &  & X &  & X \\" _n
+        //store sample size
+        forval col = 1/4 {
+            local r2_`col' = string(m`mname'[7,`col'], "%12.3fc")
+            local n_`col' = string(m`mname'[9,`col'], "%12.0fc")
+            }
+        file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
+        file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4' \\" _n
+
+
+        file write sumstat "\midrule" _n
+    }
+
+    file write sumstat "\bottomrule" _n
+    file write sumstat "\end{tabular}"
+    file close sumstat
 
 
 
-    *** marital
-    reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg and small high p, male (-), age (+), white (+), hispan
 
-    *** employment 
-    reghdfe employed post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
-    reghdfe incearn post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg small high p, male (+), age (+), white (+), hispan (+),
-    reghdfe fulltime post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
-    reghdfe uhrswork post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //pos small high p, male (+), age (+), white (+), hispan (+),
-
-    *** childbearing, age is more important here
-    reghdfe nchild post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+)
-    reghdfe newbaby post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.2, male (-), age (-), white (+), hispanic (+)
-
-    * not many changes when including married
-    reghdfe nchild post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg, p=0.1, male (-), age (+), white (+), hispanic (+)
-    reghdfe newbaby post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.2, male (-), age (-), white (+), hispanic (+)
-
-    * not many changes when adding employment 
-    reghdfe nchild post_mcaid $covars  employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+), adding employment makes the var
-    reghdfe newbaby post_mcaid $covars married employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.4, male (-), age (+), white (+), hispanic (+)
-
-    *
-    reghdfe nchild post_mcaid $covars married employed fulltime i.has_hinscaid [pw=perwt], vce(cluster statefip year) absorb(statefip year) // neg sig, male (-), age (+), white (+), hispanic (+), adding employment does not
-    reghdfe newbaby post_mcaid $covars married employed fulltime [pw=perwt], vce(cluster statefip year) absorb(statefip year) //neg, p=0.4, male (-), age (+), white (+), hispanic (+)
     
-
-
 end
 
 * set up globals 
@@ -250,6 +299,8 @@ global sum_varnames `" "Male" "Age" "Race" "\hspace{0.3cm}  White" "\hspace{0.3c
 
 global cov_varnames `" "Medicaid expansion*Post" "Male" "Age" "White race" "Hispanic origin"  "Educational attainment" "\hspace{0.3cm} Grade $<=$4" "\hspace{0.3cm}  Grades 5--8" "\hspace{0.3cm} Grade 9" "\hspace{0.3cm} Grade 10" "\hspace{0.3cm} Grade 11" "Currently married" "Employment covariates" "Employed" "Earned income" "Weekly work hours" "Full time status"  "'
 
+global childd `" "Medicaid expansion*Post" "Has Medicaid coverage" "'
+global outlabs`" "Number of children" "New baby" "'
 
 cap program drop storemean
 program define storemean
