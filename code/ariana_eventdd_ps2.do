@@ -40,12 +40,14 @@ gen any_hispan = hispan!=0
 gen fulltime = uhrswork>=40
 gen employed = empstat==1
 foreach v in hcovany hinsemp hcovpub hinscaid {
+	local varl: variable label `v'
     gen has_`v' = `v'==2
+	label var has_`v' "`varl'"
 }
 
 *** medicaid, from PS notes
 gen post_mcaid = (year>=medicaid_exp_year)* medicaid_exp //creates a dummy=1 for years in which Medicaid expansion is in effect in a state, e.g. treated*post.
-gen relative_year = medicaid_exp_year - year
+gen relative_year = year-medicaid_exp_year
 replace relative_year = 0 if medicaid_exp_year == 0
 forval i = 1/11 {
     gen mcaid_plus`i' = (year==medicaid_exp_year+`i')* medicaid_exp    
@@ -53,18 +55,39 @@ forval i = 1/11 {
 }
 
 *** outcomes, controls, and heterogeneity variables to try 
-global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby //newparent
-global covars male age /*race*/ white black native asian other any_hispan /* marital status*/ married separated single /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 employed incearn fulltime
+global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby // maybe newparent, maybe: employed incearn fulltime
+global covars male age /*race*/ white /*black native asian other*/ any_hispan /* marital status married separated single*/ /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 //employed incearn fulltime
 global hetvars male any_hispan employed
+global empvars employed incearn fulltime uhrswork
 
 save "$dd/ps2_working_data", replace
 
-* For eventdd event time variableshould be missing for the nontreated
+* For eventdd event time variable should be missing for the nontreated
 replace relative_year=. if medicaid_exp~=1
 
+label var newbaby "Has had a child in the past year"
 * eventdd  includes year & state fixed effects, weights, and clusters at state level
-foreach var of varlist $outvars {
+foreach var of varlist has_hcovany has_hinscaid has_hcovpub has_hinsemp {
 	local varl: variable label `var'
-eventdd `var' $covars i.year i.statefip [aw=perwt], timevar(relative_year) method(ols, cluster(statefip)) graph_op(ytitle("`varl'") xlabel(-5(1)5)) leads(5) lags(5) accum
+eventdd `var' $covars married $empvars i.year i.statefip [pw=perwt], timevar(relative_year) method(ols, cluster(statefip)) graph_op(ytitle("`varl'") xlabel(-5(1)5)) leads(5) lags(5) accum
 	graph export "$od/es_`var'.png", replace
 }
+
+foreach var of varlist nchild newbaby {
+	local varl: variable label `var'
+eventdd `var' $covars married $empvars i.year i.statefip [pw=perwt], timevar(relative_year) method(ols, cluster(statefip)) graph_op(ytitle("`varl'") xlabel(-5(1)5)) leads(5) lags(5) accum
+	graph export "$od/es_`var'.png", replace
+
+}
+
+* Heterogeneity;
+foreach var of varlist nchild newbaby {
+	local varl: variable label `var'
+	foreach h in $hetvars {
+eventdd `var' $covars married $empvars i.year i.statefip [pw=perwt] if `h'==1, timevar(relative_year) method(ols, cluster(statefip)) graph_op(ytitle("`varl'") xlabel(-5(1)5)) leads(5) lags(5) accum
+	graph export "$od/es_`var'_`h'1.png", replace
+	eventdd `var' $covars married $empvars i.year i.statefip [pw=perwt] if `h'==0, timevar(relative_year) method(ols, cluster(statefip)) graph_op(ytitle("`varl'") xlabel(-5(1)5)) leads(5) lags(5) accum
+	graph export "$od/es_`var'_`h'0.png", replace
+	}
+}
+
