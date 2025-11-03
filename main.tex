@@ -37,28 +37,26 @@
 
 \maketitle
 
-\begin{abstract}
-    In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover to all low-income adults as opposed to primarily families with children. This study exploits the state differential take-up of this policy to evaluate effects on childbearing decisions in the targeted population. Using 2008-2019 American Community Survey (ACS), we implement a XX design with treatment defined as XX
-\end{abstract}
+%\begin{abstract}
+ %   In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover to all low-income adults as opposed to primarily families with children. This study exploits the state differential take-up of this policy to evaluate effects on childbearing decisions in the targeted population. Using 2008-2019 American Community Survey (ACS), we implement a XX design with treatment defined as XX
+%\end{abstract}
 
+\onehalfspacing
 % I think we can remove the abstract?
 \section{Introduction}
 In 2014, the Affordable Care Act (ACA) expanded Medicaid to cover all low–income adults, opposed to primarily families with children. Previous research on this expansion has found increases in healthcare coverage and reductions in mortality, especially among younger and less-educated populations. Our research further investigates the impact of this expansion on childbearing among these groups. With the broader coverage, there are fewer incentives to work, since individuals no longer rely on employers for health insurance. At the same time, the expansion may also directly reduce incentives to have children, as individuals no longer need children to qualify for Medicaid. We exploit the staggered take–up of the expansion across states to estimate the impact of the expansion on insurance uptake, employment, and childbearing among less educated young adults.
 
 
-\section{Data }
+\section{Data}
 Our data comes from the 2008-2019 American Community Survey (ACS), obtained through the Integrated Public Use Microdata Series (IPUMS) \citep{data:acs}. The ACS is a yearly cross-sectional, one percent, annual survey of households in the United States collecting detailed information on social, economic, housing, and demographic characteristics of the U.S. population. We can also identify their marital status, number of children (and age of the youngest child), the type of insurance coverage they hold, and employment behavior. We should note, `children' is defined as own children in the household, including step-children, and excluding biological and step-children living elsewhere.
 
+Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 26--30 with an educational level below a High School degree (or equivalent). We observe $173,554$ adults, and we assume each observation represents a distinct household. During this time 34 states enacted the ACA Medicaid expansion, 3 enacted it after 2019, and 14 states never enacted it. For outcomes, we define new parents as individuals whose youngest child is 1 year old or younger, and only have one child. We also create a dummy for being a full time worker, which is equal to 1 if the average hours worked is greater than or equal to 40 hours. 
 
-Our focus sample includes years 2008-2019, all 50 U.S. states and D.C., restricting to respondents of ages 20--30 with an educational level below a High School degree (or equivalent). We have $173,554$ observation corresponding to individuals--we assume each observation represents a distinct household. During this time 34 states enacted the ACA Medicaid expansion, 3 enacted it after 2019, and 14 states never enacted it.
-
-As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides initial evidence that treated individuals may be less likely to move towards family formation decisions after the enactment and we should further test whether this is absorbed by state and year differentials \footnote{We test this in Column 1 of Table \ref{tab:expdiff} and find a very small $-0.009$ p.p. and statistically insignificant effect of the expansion and post period on being married.}.
+As shown in Table \ref{tab:sumstat}, 58\% of the sample is male, 61\% is white, and 61\% is single (divorced, widowed, or never married). We can identify how individual characteristics changes among the never treated (states that never expand Medicaid), treated states before expansion, and treated states after expansion. We see that basic demographics (sex, age, race and ethnicity) remain close (within $5\%$) across groups. In treated states, compared to the pre–period, the post period shows lower rates in the share of sample married ($14\%$), share of new parents ($16\%$), number of children ($11\%$), number of new babies ($13\%$) are slightly lower. This provides initial evidence that treated individuals may be less likely to move towards family formation decisions after the enactment and we should further test whether this is absorbed by state and year differentials \footnote{We test this in Column 1 of Table \ref{tab:expdiff} and find a very small $-0.009$ p.p. and statistically insignificant effect of the expansion and post period on being married.}.
 
 Regarding employment outcomes, we can see that employment, usual hours worked, and share of full time workers remains within a close range (within $2\%$), while earned income increases for those in the post period by $17\%$ or $\$$2,229 and health insurance coverage through an employer increases by $19\%$. As for the marital status, we should test whether these differences are robust to state and year fixed effects \footnote{We test this in Columns 2-5 of Table \ref{tab:expdiff} and find a small, mostly positive, and statistically insignificant coefficients for the effect of the expansion and post period on being employed, earned income, full time employment status, and usual weekly hours worked. }.
 
-
-We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake. %keep or remove this last sentence depending on whether we implement propensity matching score
-
+We see that individuals in treated states have any health insurance coverage ($23\%$) or Medicaid ($55\%$) at higher rates compared to those in states never treated, and those in the post period are have any coverage ($46\%$) or Medicaid ($64\%$) at even higher rates than those in the pre–period. This signals that we cannot discard that those in treated states participated in Medicaid, or were insured at the same rate as other states, and that, in the treated states, the Medicaid expansion was followed by higher Medicaid uptake. %keep or remove this last sentence depending on whether we implement propensity matching score
 
 \begin{comment}
 Outcomes list:
@@ -94,14 +92,16 @@ Heterogeneity:
 \end{comment}
 
 \section{Empirical Strategy and Results}
-To identify whether the Medicaid expansion translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach in which treatment is defined as living in a state with a Medicaid expansion after this has been enacted. We control for an individual's characteristics $W_{i}$, including sex, age, race, marital status, Hispanic origin, education, and employment behavior. We later test in Table \ref{tab:expdiff}, whether marital status and employment behavior is affected by the expansion finding no identifiable trend. We include fixed effects at the state level $Z_{s}$ and at the survey year level $V_{y}$. As the policy is enacted at the state and year level we clustered standard errors at the state and year levels.
+To identify whether the Medicaid expansion translated into higher Medicaid coverage take up rates and evaluate its effect in childbearing decisions, we implement a difference-in-difference approach through the following regression:
 
 \begin{equation}
     \label{eq:did}
     Y_{ist} = \beta_0 + \beta_1 expansion_{st}*post_{st} +  W_{i} + Z_{s} + V_{y}+ + \varepsilon_{s,j}
 \end{equation}
 
-In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables to identify the effect of the policy in uptake rates. We see that after the Medicaid expansion is enacted, people in these states see an increase in health insurance coverage from any type by $0.107$ p.p. (or $25\%$ ish relative to pre-treated  C3 in T1), an increase of $0.108$ p.p. (or $46\%$) in Medicaid coverage, and an increase of $0.111$ p.p. (or $46\%$) in public insurance--which signals the increase comes largely from the Medicaid increase. The policy seems to be associated with a large and significant increase in Medicaid signaling the expansion actually translated into a larger take up rate in our sample. We also see differences in effects by sex, Hispanic origin, and employment status, thus we choose these parameters to later evaluate heterogeneity of results for the effects of the expansion on childbearing. 
+where treatment is defined as living in state $s$ with a Medicaid expansion after this has been enacted ($\beta_1 expansion_{st}*post_{st}$). We control for an individual's characteristics ($W_{i}$), including sex, age, race, marital status, Hispanic origin, education, and employment behavior. We later test in Table \ref{tab:expdiff}, whether marital status and employment behavior is affected by the expansion finding no identifiable trend. We include state fixed effects ($Z_{s}$) and survey year level fixed effects ($V_{y}$). As the policy is enacted at the state and year level we clustered standard errors at the state and year levels. % Want to cluster at state only
+
+In Table \ref{tab:cov}, we explore Equation \ref{eq:did} with health insurance coverage by type as outcome variables to identify the effect of the policy in uptake rates. We see that after the Medicaid expansion is enacted, people in these states see an increase in health insurance coverage from any type by $0.107$ p.p. (or about $25\%$ relative to pre-treated  C3 in T1), an increase of $0.108$ p.p. (or $46\%$) in Medicaid coverage, and an increase of $0.111$ p.p. (or $46\%$) in public insurance--which signals the increase comes largely from the Medicaid increase. The policy seems to be associated with a large and significant increase in Medicaid signaling the expansion actually translated into a larger take up rate in our sample. We also see differences in effects by sex, Hispanic origin, and employment status, thus we choose these parameters to later evaluate heterogeneity of results for the effects of the expansion on childbearing. 
 
 In Table \ref{tab:cov}, we can also see that the effect of being currently married is positively associated with having any type of health insurance coverage and coverage through an employer, and negatively correlated with having Medicaid coverage. This can be explained by how by being married you are more likely to have an employed adult in your household and receive coverage through that employer. We explore if the Medicaid expansion made people less likely to be married as receiving Medicaid coverage reduces incentives for getting married and obtaining health insurance coverage through their employer. In Table \ref{tab:expdiff}, we identify that the Medicaid expansion can be associated with a change of $-0.009$ (or $-2\%$) in the chance of being currently married; given that this effect is small and not statistically significant, we decide to include this as a control when evaluating the effect of childbearing decisions. 
 
@@ -113,8 +113,8 @@ Next, we evaluate the effect of the expansion on childbearing outcomes: number o
 
 
 
-\section{Discussion}
-
+\section{Remarks}
+Why are event study results different from diff in diff?
 
 \newpage
 \bibliography{bib_ps2}
@@ -193,6 +193,25 @@ Next, we evaluate the effect of the expansion on childbearing outcomes: number o
 \end{footnotesize}
 \end{spacing}
 \end{table}
+
+\includegraphics[width=1\linewidth]{output/es_has_hcovany.png}
+\includegraphics[width=1\linewidth]{output/es_has_hcovpub.png}
+\includegraphics[width=1\linewidth]{output/es_has_hinscaid.png}
+\includegraphics[width=1\linewidth]{output/es_has_hinsemp.png}
+
+\begin{figure}
+ \centering
+ \caption{Number of children}
+\includegraphics[width=1\linewidth]{output/es_nchild.png}
+ \label{fig:nchildren}
+\end{figure}
+
+\begin{figure}
+ \centering
+ \caption{New baby}
+\includegraphics[width=1\linewidth]{output/es_newbaby.png}
+ \label{fig:newbaby}
+\end{figure}
 
 
 \end{document}
