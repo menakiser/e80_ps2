@@ -22,3 +22,36 @@ Answers from Doug 10/30:
 
 thoughts:
 - what do we feel about controling for having medicaid post exposure? triple dif or just control?
+
+\begin{comment}
+Outcomes list:
+\begin{itemize}
+    \item Any coverage
+    \item Medicaid
+    \item Public insurance
+    \item Employment insurance
+    \item Number of children
+    \item Dummy for new baby (<=1 years old)
+
+\end{itemize}
+
+Controls list:
+\begin{itemize}
+    \item Sex
+    \item Age
+    \item Race
+    \item Hispanic
+    \item Marital Status %we see changes in the balance table for this variable but not in the d-in-d
+    \item Education
+    \item Employment status
+    \item Income
+    \item Full-time worker dummy (40 hours or more a week)
+\end{itemize}
+
+Heterogeneity:
+\begin{itemize}
+    \item Sex
+    \item Hispanic v. Not Hispanic
+    \item Employment status
+\end{itemize}
+\end{comment}
