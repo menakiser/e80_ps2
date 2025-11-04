@@ -187,70 +187,6 @@ program main
 
 
     /*****************************************************
-    Table 3: Differences across expansion
-    ******************************************************/
-    use "$dd/ps2_working_data" , clear 
-
-    cap mat drop expdiff
-
-    *** marital
-    reghdfe married post_mcaid $covars [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(married) indvars(post_mcaid $covars married) mat(expdiff)
-
-    *** employment 
-    reghdfe employed post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(employed) indvars(post_mcaid $covars married) mat(expdiff)
-    reghdfe incearn post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(incearn) indvars(post_mcaid $covars married) mat(expdiff)
-    reghdfe fulltime post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(fulltime) indvars(post_mcaid $covars married) mat(expdiff)
-    reghdfe uhrswork post_mcaid $covars married [pw=perwt], vce(cluster statefip year) absorb(statefip year)
-    reg_to_mat, depvar(uhrswork) indvars(post_mcaid $covars married) mat(expdiff)
-
-
-    //store latex summary stats matrix, manually creating to fit desired format
-    cap file close sumstat
-    file open sumstat using "$od/expdiff.tex", write replace
-    file write sumstat "\begin{tabular}{lccccc}" _n
-    file write sumstat "\toprule" _n
-    file write sumstat "\toprule" _n
-    file write sumstat " Independent Variable & Currently & Employed & Earned & Full time & Weekly \\" _n
-    file write sumstat "  & married &  & income &  status & hours \\" _n
-    file write sumstat "  & (1) & (2) & (3) &  (4) & (5) \\" _n
-    file write sumstat "\midrule " _n 
-    
-    local i = 1
-    local rowcount = 1
-
-    while `rowcount' < 33 {
-        local varlab: word `i' of $cov_varnames
-        * label
-        file write sumstat " `varlab'  "
-        if `i' != 6 & `i' != 13 {
-            storecoeff, mat(expdiff) row(`rowcount') cols(1 2 3 4 5)
-            local rowcount = `rowcount' +3
-        }
-        if `i'== 6 | `i' == 13  {
-            file write sumstat "\\" _n
-        }
-        local++ i
-    }
-    file write sumstat "\\" _n
-    //store sample size
-    forval col = 1/5 {
-        local r2_`col' = string(expdiff[34,`col'], "%12.3fc")
-        local n_`col' = string(expdiff[36,`col'], "%12.0fc")
-        }
-    file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' & `r2_5' \\" _n
-    file write sumstat "Sample size & `n_1' & `n_2' & `n_3' & `n_4'  & `n_5' \\" _n
-    file write sumstat "\bottomrule" _n
-    file write sumstat "\bottomrule" _n
-    file write sumstat "\end{tabular}"
-    file close sumstat
-
-
-
-    /*****************************************************
     Table 4: Childbearing
     ******************************************************/
     use "$dd/ps2_working_data" , clear 
@@ -307,7 +243,7 @@ program main
             local++ i
         }
         file write sumstat "\\" _n
-        file write sumstat "Employment covariates  &  &  & X & X \\" _n
+        file write sumstat "Employment covariates  & X & X & $\checkmark$ & $\checkmark$ \\" _n
         //store sample size
         forval col = 1/4 {
             local r2_`col' = string(m`mname'[7,`col'], "%12.3fc")
@@ -335,8 +271,6 @@ end
 * set up globals 
 *** outcomes, controls, and heterogeneity variables to try 
 global outvars has_hcovany has_hinscaid has_hcovpub has_hinsemp nchild newbaby // maybe newparent, maybe: employed incearn fulltime
-global covars male age /*race*/ white /*black native asian other*/ any_hispan /* marital status married separated single*/ /*own educ*/ educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 //employed incearn fulltime
-global hetvars male any_hispan employed
 global empvars employed incearn fulltime uhrswork
 *** for tables
 global allvars "male age white black native asian other any_hispan married separated single nchild yngch newbaby newparent has_hcovany has_hinsemp has_hcovpub has_hinscaid educ_d2 educ_d3 educ_d4 educ_d5 educ_d6 educ_sp_d2 educ_sp_d3 educ_sp_d4 educ_sp_d5 educ_sp_d6 educ_sp_d7 educ_sp_d8 educ_sp_d9 educ_sp_d10 educ_sp_d11 employed incearn uhrswork fulltime "
