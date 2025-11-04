@@ -166,15 +166,15 @@ program main
         local varlab: word `i' of $cov_varnames
         * label
         file write sumstat " `varlab'  "
-        storecoeff, mat(cov) row(`rowcount') cols(1 2 3 4)
+        storecoeff, mat(expdiff) row(`rowcount') cols(1 2 3 4)
         local rowcount = `rowcount' +3
         local++ i
     }
     file write sumstat "\\" _n
     //store sample size
     forval col = 1/4 {
-        local r2_`col' = string(cov[13,`col'], "%12.3fc")
-        local n_`col' = string(cov[15,`col'], "%12.0fc")
+        local r2_`col' = string(expdiff[13,`col'], "%12.3fc")
+        local n_`col' = string(expdiff[15,`col'], "%12.0fc")
     }
     file write sumstat "Other employment covariates  & X & X & X & X \\" _n
     file write sumstat "R-2 & `r2_1' & `r2_2' & `r2_3' & `r2_4' \\" _n
