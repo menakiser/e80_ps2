@@ -1,6 +1,6 @@
 # avoid data files
 data/ps2_acs_2008to2019-5.dta
-
+output/final*
 # From R
 *.RData
 *.Rhistory
