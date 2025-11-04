@@ -170,7 +170,7 @@ The findings from both the difference-in-difference and event study analyses ind
 \newpage
 \pagestyle{empty}
 \begin{figure}[ht!]
-      \centering
+      \begin{centering}
       \caption{Impact on number of children–Event study}
       \label{fig:es_nchild}
       \begin{subfigure}[b]{0.49\textwidth}
@@ -214,6 +214,7 @@ The findings from both the difference-in-difference and event study analyses ind
  \caption{Not Employed}
 \includegraphics[width=1\linewidth]{output/es_nchild_employed0.png}
           \end{subfigure}
+          \end{centering}
 \begin{scriptsize}
 \textit{Notes:} The event studies explores the effect of the expansion on number of children, using the specification in Column 3 of Table \ref{tab:child_did}. All regressions include state and year fixed effects, with standard errors clustered at the state level. 95\% confidence intervals pictured. Controls include demographics (excluding heterogeneity category) and employment/marriage controls. 
 \end{scriptsize}
@@ -221,7 +222,7 @@ The findings from both the difference-in-difference and event study analyses ind
 
 % Event study heterogeneity
 \begin{figure}[ht!]
-      \centering
+      \begin{centering}
       \caption{Impact on new baby–Event study}
          \label{fig:es_newbaby}
         \begin{subfigure}[b]{0.49\textwidth}
@@ -265,6 +266,7 @@ The findings from both the difference-in-difference and event study analyses ind
  \caption{Not employed}
 \includegraphics[width=1\linewidth]{output/es_newbaby_employed0.png}
           \end{subfigure}
+          \end{centering}
 \begin{scriptsize}
 \textit{Notes:} The event studies explores the effect of the expansion on having a new baby, using the specification in Column 3 of Table \ref{tab:child_did}. All regressions include state and year fixed effects, with standard errors clustered at the state level. 95\% confidence intervals pictured. Controls include demographics (excluding heterogeneity category) and employment/marriage controls. 
 \end{scriptsize}
