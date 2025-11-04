@@ -122,9 +122,9 @@ program main
     file write sumstat "\toprule" _n
     file write sumstat "\toprule" _n
     file write sumstat " \multicolumn{5}{c}{Panel A: Insurance coverage } \\" _n
-    file write sumstat " Independent Variable & Any insurance & Medicaid & Public insurance & Coverage through \\" _n
+    file write sumstat "  & Any insurance & Medicaid & Public insurance & Coverage through \\" _n
     file write sumstat "  & coverage & coverage & coverage &  employer \\" _n
-    file write sumstat "  & (1) & (2) & (3) &  (4) \\" _n
+    file write sumstat " Independent Variable & (1) & (2) & (3) &  (4) \\" _n
     file write sumstat "\midrule " _n 
     
     * store coverage results
@@ -153,9 +153,9 @@ program main
     file write sumstat "\midrule " _n 
     file write sumstat "\midrule " _n 
     file write sumstat " \multicolumn{5}{c}{Panel B: Other effects of Medicaid expansion} \\" _n
-    file write sumstat " Independent Variable & Currently & Employed & Full time & Earned \\" _n
+    file write sumstat "  & Currently & Employed & Full time & Earned \\" _n
     file write sumstat "  & married &  &  status & income \\" _n
-    file write sumstat "  & (1) & (2) & (3) &  (4)  \\" _n
+    file write sumstat " Independent Variable & (1) & (2) & (3) &  (4)  \\" _n
     file write sumstat "\midrule " _n 
     
     * store other changes at the border
